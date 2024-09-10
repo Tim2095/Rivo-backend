@@ -14,12 +14,8 @@ const userSchema = mongoose.Schema({
     require: true,
     unique: true
   },
-  // passwordHash: String,
-  tasks: [{
-    title: String,
-    description: String,
-    completed: Boolean,
-  }]
+  passwordHash: String,
+  tasks: [],
 })
 
 userSchema.set("toJSON", {

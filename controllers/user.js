@@ -5,19 +5,23 @@ const User = require("../models/user");
 
 userRouter.post("/", async (req, res) => {
   try {
-    const { firstname, secondname, age, email, task } = req.body;
+    const { firstname, secondname, age, email, tasks, password } = req.body;
 
-    const newUser = {
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(password, saltRounds);
+
+    const user = new User({
       firstname,
       secondname,
       age,
       email,
-      task,
-    };
+      tasks,
+      passwordHash,
+    });
 
-    res.send(newUser);
+    const savedUser = await user.save();
 
-    console.log(firstname, secondname, age, email, task);
+    res.status(201).json(savedUser);
   } catch (err) {
     res.send(err);
   }
