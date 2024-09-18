@@ -5,7 +5,7 @@ const userSchema = Joi.object({
     "string.empty": "The first name field is empty",
     "string.min": "First name must be at least 2 characters long"
   }),
-  secondname: Joi.string().min(2).required().messages({
+  lastname: Joi.string().min(2).required().messages({
     "string.empty": "The second name field is empty",
     "string.min": "Second name must be at least 2 characters long"
   }),
