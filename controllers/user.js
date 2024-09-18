@@ -1,14 +1,30 @@
 const userRouter = require("express").Router();
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const User = require("../models/user");
+const userSchema = require("../schemas/userSchema");
 
-userRouter.post("/", async (req, res) => {
+userRouter.post("/", async (req, res, next) => {
   try {
     const { firstname, secondname, age, email, tasks, password } = req.body;
 
+    const { error, value } = userSchema.validate(req.body, {
+      abortEarly: false,
+    });
+
+    if (error) {
+      error.name = 'ValidationError'
+      return next(error)
+    }
+
     const saltRounds = 10;
-    const passwordHash = await bcrypt.hash(password, saltRounds);
+    let passwordHash;
+    try {
+      passwordHash = await bcrypt.hash(password, saltRounds);
+    } catch (err) {
+      err.statusCode = 500;
+      err.message = "Error occured while hashing the password";
+      return next(err);
+    }
 
     const user = new User({
       firstname,
@@ -19,11 +35,16 @@ userRouter.post("/", async (req, res) => {
       passwordHash,
     });
 
-    const savedUser = await user.save();
+    try {
+      const savedUser = await user.save();
 
-    res.status(201).json(savedUser);
+      res.status(201).json(savedUser);
+    } catch (err) {
+      err.statusCode = 500;
+      err.message = "Error saving user to database";
+    }
   } catch (err) {
-    res.send(err);
+    next(err);
   }
 });
 
