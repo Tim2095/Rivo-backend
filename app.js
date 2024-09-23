@@ -29,21 +29,17 @@ app.use("/login", loginController);
 app.use((err, req, res, next) => {
   console.log(err.stack);
 
-  if(err.name === 'ValidationError') {
+  if (err.name === "ValidationError") {
     return res.status(400).json({
-      message: 'Validation Error',
-      errors: err.details.map(detail => detail.message)
-    })
+      message: "Validation Error",
+      errors: err.details.map((detail) => detail.message),
+    });
   }
 
-  if(err.statusCode) {
+  if (err.statusCode) {
     return res.status(err.statusCode).json({
-      message: err.message
-    })
-  }
-
-  if (err.message === "Invalid email or password") {
-    return res.status(401).json({ message: err.message });
+      message: err.message,
+    });
   }
 
   res.status(500).json({
