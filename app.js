@@ -30,9 +30,9 @@ app.use((err, req, res, next) => {
   console.log(err.stack);
 
   if (err.name === "ValidationError") {
+    const errorMessage = err.details.map((detail) => detail.message).join(', ')
     return res.status(400).json({
-      message: "Validation Error",
-      errors: err.details.map((detail) => detail.message),
+      message: errorMessage
     });
   }
 
