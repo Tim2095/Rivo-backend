@@ -1,5 +1,12 @@
 const mongoose = require('mongoose')
 
+const taskSchema = mongoose.Schema({
+  title: { type: String, required: true },
+  description: { type: String },
+  completed: { type: Boolean, required: true }
+});
+
+
 const userSchema = mongoose.Schema({
   firstname: String,
   lastname: String,
@@ -10,7 +17,7 @@ const userSchema = mongoose.Schema({
     unique: true
   },
   passwordHash: String,
-  tasks: [],
+  tasks: [taskSchema],
 })
 
 userSchema.set("toJSON", {

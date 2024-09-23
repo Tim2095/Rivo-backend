@@ -23,7 +23,7 @@ mongoose
   })
   .catch((error) => console.log("Error connecting to mongo DB", error.message));
 
-app.use("/user/create", userController);
+app.use("/api/user", userController);
 app.use("/login", loginController);
 
 app.use((err, req, res, next) => {
