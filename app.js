@@ -24,7 +24,7 @@ mongoose
   .catch((error) => console.log("Error connecting to mongo DB", error.message));
 
 app.use("/api/user", userController);
-app.use("/login", loginController);
+app.use("/api/login", loginController);
 
 app.use((err, req, res, next) => {
   console.log(err.stack);
