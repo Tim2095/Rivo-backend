@@ -32,7 +32,8 @@ loginRouter.post("/", async (req, res, next) => {
       firstname: user.firstname,
       lastname: user.lastname,
       email: user.email,
-      age: user.age
+      age: user.age,
+      tasks: user.tasks,
       token: token
     });
   } catch (err) {
