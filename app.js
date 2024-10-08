@@ -3,7 +3,7 @@ const app = express();
 const cors = require("cors");
 const userController = require("./controllers/user");
 const loginController = require("./controllers/login");
-const taskController = require('./controllers/task')
+const taskController = require("./controllers/task");
 require("dotenv").config();
 const mongoose = require("mongoose");
 
@@ -26,15 +26,15 @@ mongoose
 
 app.use("/api/user", userController);
 app.use("/api/login", loginController);
-app.use('/api/task', taskController)
+app.use("/api/new-task", taskController);
 
 app.use((err, req, res, next) => {
   console.log(err.stack);
 
   if (err.name === "ValidationError") {
-    const errorMessage = err.details.map((detail) => detail.message).join(', ')
+    const errorMessage = err.details.map((detail) => detail.message).join(", ");
     return res.status(400).json({
-      message: errorMessage
+      message: errorMessage,
     });
   }
 

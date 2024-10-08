@@ -13,7 +13,7 @@ const getTokenFrom = request => {
 
 
 taskRouter.post('/', async (req, res) => {
-  const token = req.body.token 
+  const token = getTokenFrom(req)
   console.log(token)
 })
 
