@@ -12,7 +12,7 @@ const getTokenFrom = (request) => {
 
 taskRouter.post("/", async (req, res, next) => {
   try {
-    const title = req.body.taskTitle;
+    const title = req.body.title;
     const description = req.body.description;
 
     if (!description || !title) {
@@ -22,19 +22,35 @@ taskRouter.post("/", async (req, res, next) => {
     }
     const token = getTokenFrom(req);
     if (!token) {
-      const error = new Error('Missing or invalid token')
-      error.statusCode = 401 
-      return next(error)
+      const error = new Error("Missing or invalid token");
+      error.statusCode = 401;
+      return next(error);
     }
 
-    const decodedToken = jwt.verify(token, process.env.SECRET)
-    if(!decodedToken.id) {
-      const error = new Error('Invalid token')
-      error.statusCode = 401 
-      return next(error)
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!decodedToken.id) {
+      const error = new Error("Invalid token");
+      error.statusCode = 401;
+      return next(error);
     }
+
+    const user = await User.findById(decodedToken.id);
+
+    const newTask = {
+      title,
+      description,
+      dateCreated: new Date(),
+      completed: false
+    }
+
+    user.tasks.push(newTask)
+
+    await user.save()
+
+
+    res.status(201).json({message: 'Task added successfully', user})
   } catch (err) {
-    next(err)
+    next(err);
   }
 });
 
