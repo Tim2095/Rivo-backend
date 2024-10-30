@@ -57,9 +57,10 @@ taskRouter.post("/", async (req, res, next) => {
 
 taskRouter.patch('/', (req, res, next) => {
   try {
-    const {id} = req.body
+    console.log(req.body)
+    const {taskId} = req.body
 
-    console.log(id)
+    console.log(taskId)
 
   } catch(err) {
 
