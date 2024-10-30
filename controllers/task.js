@@ -40,31 +40,33 @@ taskRouter.post("/", async (req, res, next) => {
       title,
       description,
       dateCreated: new Date(),
-      completed: false
-    }
+      completed: false,
+    };
 
-    user.tasks.push(newTask)
+    user.tasks.push(newTask);
 
-    await user.save()
+    await user.save();
 
-
-    res.status(201).json({message: 'Task added successfully', user})
+    res.status(201).json({ message: "Task added successfully", user });
   } catch (err) {
     next(err);
   }
 });
 
-
-taskRouter.patch('/complete', (req, res, next) => {
+taskRouter.patch("/complete", async (req, res, next) => {
   try {
-    console.log(req.body)
-    const {taskId} = req.body
+    const { taskId, userId } = req.body;
 
-    console.log(taskId)
+    const user = await User.findById(userId);
+    const currentTask = user.tasks.find((task) => task.id === taskId);
 
-  } catch(err) {
+    if (currentTask) {
+      currentTask.completed = true;
+    }
 
-  }
-})
+    await user.save();
+    res.status(200).json(user);
+  } catch (err) {}
+});
 
 module.exports = taskRouter;
