@@ -58,7 +58,19 @@ taskRouter.patch("/complete", async (req, res, next) => {
     const { taskId, userId } = req.body;
 
     const user = await User.findById(userId);
+
+    if (!user) {
+      const error = new Error("User not found");
+      error.statusCode = 404;
+      return next(error);
+    }
+
     const currentTask = user.tasks.find((task) => task.id === taskId);
+    if (!currentTask) {
+      const error = new Error("Task not found");
+      error.statusCode = 404;
+      return next(error);
+    }
 
     if (currentTask) {
       currentTask.completed = true;
@@ -66,7 +78,9 @@ taskRouter.patch("/complete", async (req, res, next) => {
 
     await user.save();
     res.status(200).json(user);
-  } catch (err) {}
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = taskRouter;
