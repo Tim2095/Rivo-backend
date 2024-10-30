@@ -55,7 +55,7 @@ taskRouter.post("/", async (req, res, next) => {
 });
 
 
-taskRouter.patch('/', (req, res, next) => {
+taskRouter.patch('/complete', (req, res, next) => {
   try {
     console.log(req.body)
     const {taskId} = req.body
