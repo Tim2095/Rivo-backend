@@ -77,7 +77,7 @@ taskRouter.patch("/complete", async (req, res, next) => {
     }
 
     await user.save();
-    res.status(200).json(user);
+    res.status(200).json({message: 'Task updated successfully', user});
   } catch (err) {
     next(err);
   }
