@@ -83,4 +83,13 @@ taskRouter.patch("/complete", async (req, res, next) => {
   }
 });
 
+
+taskRouter.put('/edit', async (req, res) => {
+  const {taskId, userId} = req.body
+
+  console.log(taskId)
+  console.log(userId)
+
+})
+
 module.exports = taskRouter;
