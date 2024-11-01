@@ -85,10 +85,12 @@ taskRouter.patch("/complete", async (req, res, next) => {
 
 
 taskRouter.put('/edit', async (req, res) => {
-  const {taskId, userId} = req.body
+  const {taskId, userId, taskTitle, taskDescription} = req.body 
 
-  console.log(taskId)
-  console.log(userId)
+  const user = await User.findById(userId)
+  const currentTask = user.tasks.find(task => task.id === taskId)
+  console.log(taskTitle)
+  console.log(taskDescription)
 
 })
 
