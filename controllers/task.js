@@ -77,21 +77,42 @@ taskRouter.patch("/complete", async (req, res, next) => {
     }
 
     await user.save();
-    res.status(200).json({message: 'Task updated successfully', user});
+    res.status(200).json({ message: "Task updated successfully", user });
   } catch (err) {
     next(err);
   }
 });
 
+taskRouter.put("/edit", async (req, res, next) => {
+  try {
+    const { taskId, userId, taskTitle, taskDescription } = req.body;
 
-taskRouter.put('/edit', async (req, res) => {
-  const {taskId, userId, taskTitle, taskDescription} = req.body 
+    const user = await User.findById(userId);
 
-  const user = await User.findById(userId)
-  const currentTask = user.tasks.find(task => task.id === taskId)
-  console.log(taskTitle)
-  console.log(taskDescription)
+    if (!user) {
+      const error = new Error("User not found");
+      error.statusCode = 404;
+      return next(error);
+    }
 
-})
+    const currentTask = user.tasks.find((task) => task.id === taskId);
+
+    if (!currentTask) {
+      const error = new Error("Task not found");
+      error.statusCode = 404;
+      return next(error);
+    }
+    currentTask.title = taskTitle;
+    currentTask.description = taskDescription;
+
+    await user.save();
+
+    console.log(user)
+
+    res.status(200).json({ message: "Task updated successfully", user });
+  } catch (err) {
+    next(err);
+  }
+});
 
 module.exports = taskRouter;
