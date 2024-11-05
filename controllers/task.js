@@ -107,7 +107,7 @@ taskRouter.put("/edit", async (req, res, next) => {
 
     await user.save();
 
-    console.log(user)
+    console.log(user);
 
     res.status(200).json({ message: "Task updated successfully", user });
   } catch (err) {
