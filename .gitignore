@@ -1,1 +1,29 @@
+
+/node_modules/
+
+
+/dist/
+/build/
+
+
+/logs/
+/*.log
+*.log
+
+
 .env
+
+
+.DS_Store        # macOS specific
+Thumbs.db        # Windows specific
+
+
+package-lock.json
+yarn.lock
+
+
+/coverage/
+
+
+.vscode/
+.idea/
