@@ -6,6 +6,7 @@ const loginController = require("./controllers/login");
 const taskController = require("./controllers/task");
 require("dotenv").config();
 const mongoose = require("mongoose");
+const path = require('path');
 
 app.use(express.json());
 app.use(cors());
