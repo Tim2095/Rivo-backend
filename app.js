@@ -6,7 +6,7 @@ const loginController = require("./controllers/login");
 const taskController = require("./controllers/task");
 require("dotenv").config();
 const mongoose = require("mongoose");
-const path = require('path');
+const path = require("path");
 
 app.use(express.json());
 app.use(cors());
@@ -25,20 +25,14 @@ mongoose
   })
   .catch((error) => console.log("Error connecting to mongo DB", error.message));
 
-
-;
-
 app.use("/api/user", userController);
 app.use("/api/login", loginController);
 app.use("/api/new-task", taskController);
-app.use('/pmo', express.static(path.join(__dirname, 'dist')));
-app.get('/pmo/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../dist/index.html'));
+
+app.use(express.static(path.join(__dirname, "dist")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
-app.use(express.static(path.join(__dirname, "dist")))
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-})
 
 app.use((err, req, res, next) => {
   console.log(err.stack);
