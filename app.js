@@ -31,7 +31,10 @@ mongoose
 app.use("/api/user", userController);
 app.use("/api/login", loginController);
 app.use("/api/new-task", taskController);
-
+app.use('/pmo', express.static(path.join(__dirname, 'dist')));
+app.get('/pmo/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../dist/index.html'));
+});
 app.use(express.static(path.join(__dirname, "dist")))
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
