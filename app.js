@@ -25,15 +25,17 @@ mongoose
   })
   .catch((error) => console.log("Error connecting to mongo DB", error.message));
 
-app.use(express.static(path.join(__dirname, "dist")));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
+;
 
 app.use("/api/user", userController);
 app.use("/api/login", loginController);
 app.use("/api/new-task", taskController);
+
+app.use(express.static(path.join(__dirname, "dist")))
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+})
 
 app.use((err, req, res, next) => {
   console.log(err.stack);
