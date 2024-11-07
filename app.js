@@ -11,6 +11,7 @@ const path = require("path");
 app.use(express.json());
 app.use(cors());
 
+// MongoDB connection
 const dbPassword = process.env.DB_PASSWORD;
 const dbUrl = process.env.DB_URL.replace("<db_password>", dbPassword);
 
@@ -25,15 +26,20 @@ mongoose
   })
   .catch((error) => console.log("Error connecting to mongo DB", error.message));
 
+// API Routes
 app.use("/api/user", userController);
 app.use("/api/login", loginController);
 app.use("/api/new-task", taskController);
 
-app.use(express.static(path.join(__dirname, "dist")));
+// Serve static files under the '/api' path
+app.use("/api", express.static(path.join(__dirname, "dist")));
+
+// Catch-all route for serving React's index.html for all non-API requests
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
+// Error handling middleware
 app.use((err, req, res, next) => {
   console.log(err.stack);
 
