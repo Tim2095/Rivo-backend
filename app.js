@@ -32,7 +32,7 @@ app.use("/api/login", loginController);
 app.use("/api/new-task", taskController);
 
 // Serve static files under the '/api' path
-app.use("/api", express.static(path.join(__dirname, "dist")));
+app.use(express.static(path.join(__dirname, "dist")));
 
 // Catch-all route for serving React's index.html for all non-API requests
 app.get("*", (req, res) => {
