@@ -27,6 +27,15 @@ mongoose
 
 app.use(express.static(path.join(__dirname, "dist")));
 
+app.get("*", (req, res) => {
+  const isApiRequest = req.originalUrl.startsWith("/api");
+  const isStaticFileRequest = req.originalUrl.startsWith("/assets");
+  
+  // Serve index.html only for non-API and non-static file requests
+  if (!isApiRequest && !isStaticFileRequest) {
+    res.sendFile(path.join(__dirname, "dist", "index.html"));
+  }
+});
 
 // API Routes
 app.use("/api/user", userController);
