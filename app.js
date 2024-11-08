@@ -25,15 +25,13 @@ mongoose
   })
   .catch((error) => console.log("Error connecting to mongo DB", error.message));
 
-app.use(express.static(path.join(__dirname, "dist")));
-
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
 app.use(
   "/assets",
-  express.static(path.join(__dirname, "dist", "index-BLLS20-a.js"), {
+  express.static(path.join(__dirname, "dist", "assets"), {
     setHeaders: (res, path) => {
       // Explicitly set Content-Type for .js files
       if (path.endsWith(".js")) {
@@ -46,6 +44,7 @@ app.use(
     },
   })
 );
+app.use(express.static(path.join(__dirname, "dist")));
 
 // API Routes
 app.use("/api/user", userController);
