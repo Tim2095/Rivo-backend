@@ -27,12 +27,6 @@ mongoose
 
 app.use(express.static(path.join(__dirname, "dist")));
 
-// Serve index.html for all non-API routes to handle client-side routing
-app.get("*", (req, res) => {
-  if (!req.originalUrl.startsWith("/api")) {
-    res.sendFile(path.join(__dirname, "dist", "index.html"));
-  }
-});
 
 // API Routes
 app.use("/api/user", userController);
