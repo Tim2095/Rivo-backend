@@ -33,7 +33,7 @@ app.get("*", (req, res) => {
 
 app.use(
   "/assets",
-  express.static(path.join(__dirname, "dist", "assets"), {
+  express.static(path.join(__dirname, "dist", "index-BLLS20-a.js"), {
     setHeaders: (res, path) => {
       // Explicitly set Content-Type for .js files
       if (path.endsWith(".js")) {
