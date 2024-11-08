@@ -15,6 +15,7 @@ app.use(cors());
 const dbPassword = process.env.DB_PASSWORD;
 const dbUrl = process.env.DB_URL.replace("<db_password>", dbPassword);
 
+console.log('Hello there')
 mongoose.set("strictQuery", false);
 console.log(`Connecting to ${dbUrl}`);
 
