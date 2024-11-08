@@ -25,24 +25,12 @@ mongoose
   })
   .catch((error) => console.log("Error connecting to mongo DB", error.message));
 
-  app.use(express.static(path.join(__dirname, "dist")));
+app.use(express.static(path.join(__dirname, "dist")));
 
-  // Serve index.html for non-API and non-static file requests (for client-side routing)
-  app.get("*", (req, res) => {
-    const isApiRequest = req.originalUrl.startsWith("/api");
-    const isStaticFile = req.originalUrl.startsWith("/assets");
-    if (!isApiRequest && !isStaticFile) {
-      res.sendFile(path.join(__dirname, "dist", "index.html"));
-    }
-  });
-
-app.use("/assets", express.static(path.join(__dirname, "dist", "assets"), {
-  setHeaders: (res, path) => {
-    if (path.endsWith(".js")) {
-      res.setHeader("Content-Type", "application/javascript");
-    }
-  }
-}));
+// Serve index.html for non-API and non-static file requests (for client-side routing)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
 
 // API Routes
 app.use("/api/user", userController);
