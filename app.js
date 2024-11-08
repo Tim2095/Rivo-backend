@@ -25,26 +25,11 @@ mongoose
   })
   .catch((error) => console.log("Error connecting to mongo DB", error.message));
 
+app.use(express.static(path.join(__dirname, "dist")));
+
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
-
-app.use(
-  "/assets",
-  express.static(path.join(__dirname, "dist", "assets"), {
-    setHeaders: (res, path) => {
-      // Explicitly set Content-Type for .js files
-      if (path.endsWith(".js")) {
-        res.setHeader("Content-Type", "application/javascript");
-      }
-      // Optional: set for .css files if needed
-      if (path.endsWith(".css")) {
-        res.setHeader("Content-Type", "text/css");
-      }
-    },
-  })
-);
-app.use(express.static(path.join(__dirname, "dist")));
 
 // API Routes
 app.use("/api/user", userController);
