@@ -25,19 +25,7 @@ mongoose
   })
   .catch((error) => console.log("Error connecting to mongo DB", error.message));
 
-app.use(
-  "/assets",
-  express.static(path.join(__dirname, "dist", "assets"), {
-    setHeaders: (res, path) => {
-      if (path.endsWith(".js")) {
-        res.setHeader("Content-Type", "application/javascript");
-      }
-      if (path.endsWith(".css")) {
-        res.setHeader("Content-Type", "text/css");
-      }
-    },
-  })
-);
+
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "dist", "index.html"));
