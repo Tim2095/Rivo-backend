@@ -37,6 +37,19 @@ app.get("*", (req, res) => {
   }
 });
 
+app.use((req, res, next) => {
+  console.log(`Request URL: ${req.url}`);
+  next();
+});
+
+app.use("/assets", express.static(path.join(__dirname, "dist", "assets"), {
+  setHeaders: (res, path) => {
+    if (path.endsWith(".js")) {
+      res.setHeader("Content-Type", "application/javascript");
+    }
+  }
+}));
+
 // API Routes
 app.use("/api/user", userController);
 app.use("/api/login", loginController);
