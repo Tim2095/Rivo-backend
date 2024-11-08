@@ -25,6 +25,12 @@ mongoose
   })
   .catch((error) => console.log("Error connecting to mongo DB", error.message));
 
+app.use(express.static(path.join(__dirname, "dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
+
 app.use(
   "/assets",
   express.static(path.join(__dirname, "dist", "assets"), {
@@ -40,12 +46,6 @@ app.use(
     },
   })
 );
-app.use(express.static(path.join(__dirname, "dist")));
-
-// Serve index.html for non-API and non-static file requests (for client-side routing)
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
-});
 
 // API Routes
 app.use("/api/user", userController);
