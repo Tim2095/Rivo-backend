@@ -16,7 +16,6 @@ const dbPassword = process.env.DB_PASSWORD;
 const dbUrl = process.env.DB_URL.replace("<db_password>", dbPassword);
 
 mongoose.set("strictQuery", false);
-
 console.log(`Connecting to ${dbUrl}`);
 
 mongoose
@@ -31,34 +30,27 @@ app.use("/api/user", userController);
 app.use("/api/login", loginController);
 app.use("/api/new-task", taskController);
 
-// Serve static files under the '/api' path
+// Serve static files from 'dist' directly without '/api' path
 app.use(express.static(path.join(__dirname, "dist")));
 
-// Catch-all route for serving React's index.html for all non-API requests
+// Serve index.html for all non-API routes to handle client-side routing
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
+  if (!req.originalUrl.startsWith("/api")) {
+    res.sendFile(path.join(__dirname, "dist", "index.html"));
+  }
 });
 
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.log(err.stack);
-
   if (err.name === "ValidationError") {
     const errorMessage = err.details.map((detail) => detail.message).join(", ");
-    return res.status(400).json({
-      message: errorMessage,
-    });
+    return res.status(400).json({ message: errorMessage });
   }
-
   if (err.statusCode) {
-    return res.status(err.statusCode).json({
-      message: err.message,
-    });
+    return res.status(err.statusCode).json({ message: err.message });
   }
-
-  res.status(500).json({
-    message: "Internal server Error",
-  });
+  res.status(500).json({ message: "Internal server Error" });
 });
 
 module.exports = app;
