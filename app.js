@@ -25,12 +25,6 @@ mongoose
   })
   .catch((error) => console.log("Error connecting to mongo DB", error.message));
 
-// API Routes
-app.use("/api/user", userController);
-app.use("/api/login", loginController);
-app.use("/api/new-task", taskController);
-
-// Serve static files from 'dist' directly without '/api' path
 app.use(express.static(path.join(__dirname, "dist")));
 
 // Serve index.html for all non-API routes to handle client-side routing
@@ -39,6 +33,13 @@ app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "dist", "index.html"));
   }
 });
+
+// API Routes
+app.use("/api/user", userController);
+app.use("/api/login", loginController);
+app.use("/api/new-task", taskController);
+
+// Serve static files from 'dist' directly without '/api' path
 
 // Error handling middleware
 app.use((err, req, res, next) => {
