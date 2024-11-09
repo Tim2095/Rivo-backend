@@ -25,7 +25,7 @@ mongoose
   })
   .catch((error) => console.log("Error connecting to mongo DB", error.message));
 
-
+app.use(express.static(path.join(__dirname, "dist")));
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "dist", "index.html"));
